@@ -13,7 +13,7 @@ import matplotlib.pyplot as plt
 import sys
 sys.path.append("../tools/")
 from feature_format import featureFormat, targetFeatureSplit
-
+from sklearn.preprocessing import MinMaxScaler
 
 
 
@@ -54,6 +54,17 @@ poi  = "poi"
 features_list = [poi, feature_1, feature_2]
 data = featureFormat(data_dict, features_list )
 poi, finance_features = targetFeatureSplit( data )
+
+# Feature scaling of finance_features
+mm_scaler = MinMaxScaler()
+ff_copy = finance_features
+finance_features = mm_scaler.fit_transform(finance_features)
+
+# Scaled value for 200k salary and 1 Mil bonus
+numpy_features = numpy.array([[200000.,1000000.]])
+# Since the scaler is already fit, just transform
+print(mm_scaler.transform(numpy_features))
+# [0.17997621, 0.02911345]
 
 
 ### in the "clustering with 3 features" part of the mini-project,
